@@ -9,13 +9,13 @@ public class DataBase{
     String fileName;
 
     DataBase(String fileName) throws IOException{
-        File directory = new File(".\\dados");
+        File directory = new File(".\\data");
 
         if(!directory.exists()){
             directory.mkdir();
         }
 
-        this.fileName = ".\\dados\\" + fileName;
+        this.fileName = ".\\data\\" + fileName;
         file = new RandomAccessFile(this.fileName, "rw");
         if(file.length() < HEADER_LENGTH){
             file.writeInt(0);

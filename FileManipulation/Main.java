@@ -13,7 +13,7 @@ public class Main {
 
         try {
 
-            File f = new File(".\\dados\\game.db");
+            File f = new File(".\\data\\game.db");
             f.delete();
 
             gameFile = new DataBase("game.db");
