@@ -15,7 +15,7 @@ public class DataBase{
             directory.mkdir();
         }
 
-        this.fileName = ".\\dados" + fileName;
+        this.fileName = ".\\dados\\" + fileName;
         file = new RandomAccessFile(this.fileName, "rw");
         if(file.length() < HEADER_LENGTH){
             file.writeInt(0);
@@ -46,11 +46,14 @@ public class DataBase{
         file.seek(HEADER_LENGTH);
 
         while(file.getFilePointer() < file.length()){
+
             Game game = new Game();
             game.id = file.readInt();
             game.name = file.readUTF();
             game.developer = file.readUTF();
+            game.price = file.readFloat();
             game.releaseDate = LocalDate.ofEpochDay((int) file.readInt());
+
 
             if(game.name.compareTo(gameName) == 0){
                 return game;

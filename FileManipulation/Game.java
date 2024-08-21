@@ -1,5 +1,4 @@
 import java.time.LocalDate;
-import java.io.IOException;
 
 class Game{
     public int id;
@@ -32,11 +31,11 @@ class Game{
         return this.id;
     }
 
-    public String toString(){
-        return "\nID.........:" + this.id +
-               "\nName.......:" + this.name +
-               "\nDeveloper..:" + this.developer +
+    public String toString(){ 
+        return "\nID.........: " + this.id +
+               "\nName.......: " + this.name +
+               "\nDeveloper..: " + this.developer +
                "\nPrice......: $" + this.price +
-               "\nReleaseDate:" + this.releaseDate;
+               "\nReleaseDate: " + this.releaseDate;
     }
 }
