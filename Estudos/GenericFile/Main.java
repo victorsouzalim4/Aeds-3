@@ -1,3 +1,5 @@
+package Estudos.GenericFile;
+
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -13,7 +15,7 @@ public class Main {
 
         try {
 
-            File f = new File(".\\FileManipulation\\data\\game.db");
+            File f = new File(".\\GenericFile\\data\\game.db");
             f.delete();
 
             gameFile = new DataBase("game.db");
@@ -22,7 +24,7 @@ public class Main {
             gameFile.create(g2);
             gameFile.create(g3);
 
-            Game g = gameFile.read("Fallout");
+            Game g = gameFile.read("Elden Ring");
 
             if(g != null){
                 System.out.println(g.toString());

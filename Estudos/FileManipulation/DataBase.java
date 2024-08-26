@@ -1,3 +1,5 @@
+package Estudos.FileManipulation;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -9,13 +11,13 @@ public class DataBase{
     String fileName;
 
     DataBase(String fileName) throws IOException{
-        File directory = new File(".\\FileManipulation\\data");
+        File directory = new File(".\\Estudos\\FileManipulation\\data");
 
         if(!directory.exists()){
             directory.mkdir();
         }
 
-        this.fileName = ".\\FileManipulation\\data\\" + fileName;
+        this.fileName = ".\\Estudos\\FileManipulation\\data\\" + fileName;
         file = new RandomAccessFile(this.fileName, "rw");
         if(file.length() < HEADER_LENGTH){
             file.writeInt(0);
