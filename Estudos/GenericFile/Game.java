@@ -1,6 +1,11 @@
 package Estudos.GenericFile;
 
 import java.time.LocalDate;
+import java.io.IOException;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
 
 class Game{
     public int id;
@@ -39,5 +44,18 @@ class Game{
                "\nDeveloper..: " + this.developer +
                "\nPrice......: $" + this.price +
                "\nReleaseDate: " + this.releaseDate;
+    }
+
+    public byte[] toByteArray() throws Exception{
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        DataOutputStream dos = new DataOutputStream(baos);
+
+        dos.writeInt(this.id);
+        dos.writeUTF(this.name);
+        dos.writeUTF(this.developer);
+        dos.writeFloat(this.price);
+        dos.writeInt((int) this.releaseDate.toEpochDay());
+
+        return baos.toByteArray();
     }
 }
