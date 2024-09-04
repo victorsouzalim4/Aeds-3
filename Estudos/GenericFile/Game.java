@@ -58,4 +58,15 @@ class Game{
 
         return baos.toByteArray();
     }
+
+    public void fromByteArray(byte[] b) throws Exception{
+        ByteArrayInputStream bais = new ByteArrayInputStream(b);
+        DataInputStream dis = new DataInputStream(bais);
+
+        this.id = dis.readInt();
+        this.name = dis.readUTF();
+        this.developer = dis.readUTF();
+        this.price = dis.readFloat();
+        this.releaseDate = LocalDate.ofEpochDay(dis.readInt());
+    }
 }
