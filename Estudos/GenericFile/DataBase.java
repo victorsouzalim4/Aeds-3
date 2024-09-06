@@ -108,6 +108,49 @@ public class DataBase <T extends Register> {
         
         return false;
     }
-            
+
+    public boolean update(T newObj) throws Exception{
+        T obj;
+        byte tomb;
+        short len;
+        byte[] b;
+        Long adress;
+
+        file.seek(HEADER_LENGTH);
+
+        while(file.getFilePointer() < file.length()){
+            obj = constructor.newInstance();
+            adress = file.getFilePointer();
+            tomb = file.readByte();
+            len = file.readShort();
+
+            b = new byte[len];
+            file.read(b);
+            obj.fromByteArray(b);
+
+            if(obj.getId() == newObj.getId()){
+                byte [] newB = newObj.toByteArray();
+                short newLen = (short) newB.length;
+
+                if(newLen < len){
+                    file.seek(adress + 3);
+                    file.write(newB);
+                }else{
+                    file.seek(adress);
+                    file.write('*');
+
+                    file.seek(file.length());
+                    file.write(' ');
+                    file.writeShort(newLen);
+                    file.write(newB);
+                }
+
+                return true;
+
+            }
+        }
+
+        return false;
+    }            
 }
 
