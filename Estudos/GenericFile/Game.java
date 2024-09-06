@@ -7,22 +7,22 @@ import java.io.DataOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 
-class Game{
+class Game implements Register {
     public int id;
     public String name;
     public String developer;
     public float price;
     public LocalDate releaseDate;
 
-    public Game(){
-        this(-1, "","", 0F, LocalDate.now());
+    public Game() {
+        this(-1, "", "", 0F, LocalDate.now());
     }
 
-    public Game(String n, String d, float p, LocalDate rD){
+    public Game(String n, String d, float p, LocalDate rD) {
         this(-1, n, d, p, rD);
     }
 
-    public Game(int id, String n, String d, float p, LocalDate rD){
+    public Game(int id, String n, String d, float p, LocalDate rD) {
         this.id = id;
         this.name = n;
         this.developer = d;
@@ -30,23 +30,23 @@ class Game{
         this.releaseDate = rD;
     }
 
-    public void setId(int id){
+    public void setId(int id) {
         this.id = id;
     }
 
-    public int getId(){
+    public int getId() {
         return this.id;
     }
 
-    public String toString(){ 
+    public String toString() {
         return "\nID.........: " + this.id +
-               "\nName.......: " + this.name +
-               "\nDeveloper..: " + this.developer +
-               "\nPrice......: $" + this.price +
-               "\nReleaseDate: " + this.releaseDate;
+                "\nName.......: " + this.name +
+                "\nDeveloper..: " + this.developer +
+                "\nPrice......: $" + this.price +
+                "\nReleaseDate: " + this.releaseDate;
     }
 
-    public byte[] toByteArray() throws Exception{
+    public byte[] toByteArray() throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DataOutputStream dos = new DataOutputStream(baos);
 
@@ -59,7 +59,7 @@ class Game{
         return baos.toByteArray();
     }
 
-    public void fromByteArray(byte[] b) throws Exception{
+    public void fromByteArray(byte[] b) throws IOException {
         ByteArrayInputStream bais = new ByteArrayInputStream(b);
         DataInputStream dis = new DataInputStream(bais);
 

@@ -4,13 +4,15 @@ import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.time.LocalDate;
+import java.lang.reflect.Constructor;
 
-public class DataBase{
+public class DataBase <T extends Register> { 
     final int HEADER_LENGTH = 4;
     RandomAccessFile file;
     String fileName;
+    Constructor<T> constructor;
 
-    DataBase(String fileName) throws IOException{
+    DataBase(String fileName, Constructor<T> constructor) throws IOException{
         File directory = new File(".\\Estudos\\GenericFile\\data");
 
         if(!directory.exists()){
@@ -18,48 +20,56 @@ public class DataBase{
         }
 
         this.fileName = ".\\Estudos\\GenericFile\\data\\" + fileName;
+        this.constructor = constructor;
         file = new RandomAccessFile(this.fileName, "rw");
         if(file.length() < HEADER_LENGTH){
             file.writeInt(0);
         }
     }
 
-    public int create(Game game)throws IOException{
+    public int create(T obj) throws IOException{
 
         file.seek(0);
         int newId = file.readInt() + 1;
-        game.setId(newId);
+        obj.setId(newId);
 
         file.seek(0);
         file.writeInt(newId);
 
         file.seek(file.length());
-        file.writeInt(game.id);
-        file.writeUTF(game.name);
-        file.writeUTF(game.developer);
-        file.writeFloat(game.price);
-        file.writeInt((int) game.releaseDate.toEpochDay());
 
-        return game.id;
+        byte[] b = obj.toByteArray();
+        file.writeByte(' ');
+        file.writeShort(b.length);
+        file.write(b);
+
+        return obj.getId();
     }
 
-    public Game read(String gameName) throws IOException{
+    public T read(int id) throws Exception{
+        T obj;
+        byte tomb;
+        short tam;
+        byte[] b;
         
         file.seek(HEADER_LENGTH);
 
         while(file.getFilePointer() < file.length()){
 
-            Game game = new Game();
-            game.id = file.readInt();
-            game.name = file.readUTF();
-            game.developer = file.readUTF();
-            game.price = file.readFloat();
-            game.releaseDate = LocalDate.ofEpochDay((int) file.readInt());
+            obj = constructor.newInstance();
+            tomb = file.readByte();
+            tam = file.readShort();
+            b = new byte[tam];
+            file.read(b);
 
 
-            if(game.name.compareTo(gameName) == 0){
-                return game;
-            }
+           if(tomb == ' '){
+                obj.fromByteArray(b);
+                if(obj.getId() == id){
+                    return obj;
+                }
+           }
+
         }
         
         
