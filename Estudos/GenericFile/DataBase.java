@@ -49,7 +49,7 @@ public class DataBase <T extends Register> {
     public T read(int id) throws Exception{
         T obj;
         byte tomb;
-        short tam;
+        short len;
         byte[] b;
         
         file.seek(HEADER_LENGTH);
@@ -58,8 +58,8 @@ public class DataBase <T extends Register> {
 
             obj = constructor.newInstance();
             tomb = file.readByte();
-            tam = file.readShort();
-            b = new byte[tam];
+            len = file.readShort();
+            b = new byte[len];
             file.read(b);
 
 
@@ -74,6 +74,39 @@ public class DataBase <T extends Register> {
         
         
         return null;
+    }
+
+    public boolean delete(int id) throws Exception{
+        T obj;
+        byte tomb;
+        short len;
+        byte[] b;
+        Long adress;
+
+        file.seek(HEADER_LENGTH);
+
+        while(file.getFilePointer() < file.length()){
+            obj = constructor.newInstance();
+            adress = file.getFilePointer();
+
+            tomb = file.readByte();
+            len = file.readShort();
+            b = new byte[len];
+            file.read(b);
+
+            if(tomb == ' '){
+                obj.fromByteArray(b);
+                if(obj.getId() == id){
+                    file.seek(adress);
+                    file.write('*');
+                    return true;
+                }
+            }
+
+        }
+        
+        
+        return false;
     }
             
 }
