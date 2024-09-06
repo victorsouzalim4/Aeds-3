@@ -3,7 +3,6 @@ package Estudos.GenericFile;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.time.LocalDate;
 import java.lang.reflect.Constructor;
 
 public class DataBase <T extends Register> { 
